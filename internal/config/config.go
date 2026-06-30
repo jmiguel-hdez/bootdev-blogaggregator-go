@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	DbUrl           string `json:"db_url"`
+	DBURL           string `json:"db_url"`
 	CurrentUserName string `json:"current_user_name"`
 }
 
@@ -42,10 +42,10 @@ func Read() (Config, error) {
 	return cfg, nil
 }
 
-func SetUser(cfg Config, current_user_name string) error {
-	cfg.CurrentUserName = current_user_name
+func (cfg *Config) SetUser(userName string) error {
+	cfg.CurrentUserName = userName
 
-	return write(cfg)
+	return write(*cfg)
 }
 
 func write(cfg Config) error {

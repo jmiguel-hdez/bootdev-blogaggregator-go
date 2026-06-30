@@ -3,22 +3,22 @@ package main
 import (
 	"fmt"
 	"github.com/jmiguel-hdez/bootdev-blogaggregator-go/internal/config"
+	"log"
 )
 
 func main() {
 	cfg, err := config.Read()
 	if err != nil {
-		fmt.Printf("unable to read cfg file: %v\n", err)
+		log.Fatalf("unable to read cfg file: %v\n", err)
 	}
-	err = config.SetUser(cfg, "orsted")
+	err = cfg.SetUser("orsted")
 	if err != nil {
-		fmt.Printf("unable to write cfg file: %v\n", err)
+		log.Fatalf("unable to write cfg file: %v\n", err)
 	}
 	cfg, err = config.Read()
 	if err != nil {
-		fmt.Printf("unable to read cfg file: %v\n", err)
+		log.Fatalf("unable to read cfg file: %v\n", err)
 	}
-	fmt.Printf("username: %v\n", cfg.CurrentUserName)
-	fmt.Printf("url: %v\n", cfg.DbUrl)
+	fmt.Printf("Read config: %+v\n", cfg)
 
 }
