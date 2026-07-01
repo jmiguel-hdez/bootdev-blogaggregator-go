@@ -1,12 +1,17 @@
 package main
 
+import _ "github.com/lib/pq"
+
 import (
+	"database/sql"
 	"github.com/jmiguel-hdez/bootdev-blogaggregator-go/internal/config"
+	"github.com/jmiguel-hdez/bootdev-blogaggregator-go/internal/database"
 	"log"
 	"os"
 )
 
 type state struct {
+	db  *database.Queries
 	cfg *config.Config
 }
 
@@ -15,10 +20,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("unable to read cfg file: %v\n", err)
 	}
-	programState := &state{cfg: &cfg}
+
+	db, err := sql.Open("postgres", cfg.DBURL)
+	if err != nil {
+		log.Fatal("unable to open database")
+	}
+	dbQueries := database.New(db)
+	programState := &state{cfg: &cfg, db: dbQueries}
 
 	cmds := commands{cmds: make(map[string]func(*state, command) error)}
 	cmds.register("login", handlerLogin)
+	cmds.register("register", handlerRegister)
 
 	if len(os.Args) < 2 {
 		log.Fatal("Usage: cli <command> [args...]")
