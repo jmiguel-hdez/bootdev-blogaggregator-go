@@ -25,6 +25,8 @@ func main() {
 	if err != nil {
 		log.Fatal("unable to open database")
 	}
+	defer db.Close()
+
 	dbQueries := database.New(db)
 	programState := &state{cfg: &cfg, db: dbQueries}
 

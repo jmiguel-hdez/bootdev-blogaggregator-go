@@ -13,24 +13,23 @@ func handlerRegister(s *state, cmd command) error {
 		return fmt.Errorf("usage: %s <username>", cmd.Name)
 	}
 	username := cmd.Args[0]
-	userid := uuid.New()
-	ct := time.Now()
-	params := database.CreateUserParams{ID: userid, CreatedAt: ct, UpdatedAt: ct, Name: username}
-
-	_, err := s.db.GetUser(context.Background(), username)
-	if err == nil {
-		return fmt.Errorf("user:%s already exists", username)
+	params := database.CreateUserParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+		Name:      username,
 	}
 
 	user, err := s.db.CreateUser(context.Background(), params)
 	if err != nil {
-		return err
+		return fmt.Errorf("couldn't create user: %w", err)
 	}
 	err = s.cfg.SetUser(username)
 	if err != nil {
-		return err
+		return fmt.Errorf("couldn't set current user: %w", err)
 	}
-	fmt.Printf("User created: %+#v\n", user)
+	fmt.Println("User created sucdessfully:")
+	printUser(user)
 
 	return nil
 }
@@ -50,4 +49,9 @@ func handlerLogin(s *state, cmd command) error {
 	}
 	fmt.Printf("User has been set to %s\n", username)
 	return nil
+}
+
+func printUser(user database.User) {
+	fmt.Printf(" * ID: %v\n", user.ID)
+	fmt.Printf(" * Name: %v\n", user.Name)
 }
