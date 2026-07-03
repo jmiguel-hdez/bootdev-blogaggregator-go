@@ -71,15 +71,6 @@ func handleAgg(s *state, cmd command) error {
 	if err != nil {
 		return fmt.Errorf("unable to fetch feed: %w", err)
 	}
-	fmt.Printf("Channel Title: %v\n", feed.Channel.Description)
-	fmt.Printf("Channel Description: %v\n", feed.Channel.Description)
-	fmt.Printf("Channel Link: %v\n", feed.Channel.Link)
-	for i, item := range feed.Channel.Item {
-		fmt.Printf("Item: %d\n", i)
-		fmt.Printf("Item Title: %v\n", item.Title)
-		fmt.Printf("Item Description: %v\n", item.Description)
-		fmt.Printf("Item Link: %v\n", item.Link)
-		fmt.Printf("Item PubDate: %v\n", item.PubDate)
-	}
+	fmt.Printf("%+v\n", *feed)
 	return nil
 }
