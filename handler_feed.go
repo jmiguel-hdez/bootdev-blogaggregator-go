@@ -34,6 +34,8 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 	fmt.Println("Feed created succesfully")
 	printFeed(feed)
+	fmt.Println()
+	fmt.Println("========================================")
 
 	return nil
 }
