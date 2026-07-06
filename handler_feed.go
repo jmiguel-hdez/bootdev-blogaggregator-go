@@ -40,6 +40,25 @@ func handlerAddFeed(s *state, cmd command) error {
 	return nil
 }
 
+func handlerFeeds(s *state, cmd command) error {
+	if len(cmd.Args) != 0 {
+		return fmt.Errorf("usage: %s", cmd.Name)
+	}
+	feeds, err := s.db.GetFeeds(context.Background())
+	if err != nil {
+		return fmt.Errorf("error when getting the feeds: %w", err)
+	}
+	for _, feed := range feeds {
+		username, err := s.db.GetUserById(context.Background(), feed.UserID)
+		if err != nil {
+			return fmt.Errorf("error when getting user: %w", err)
+		}
+		printFeed(feed)
+		fmt.Printf(" * UserName: %v\n", username)
+	}
+	return nil
+}
+
 func printFeed(feed database.Feed) {
 	fmt.Printf(" * ID: %v\n", feed.ID)
 	fmt.Printf(" * Created At: %v\n", feed.CreatedAt)
