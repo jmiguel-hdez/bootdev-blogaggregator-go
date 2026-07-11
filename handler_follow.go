@@ -39,7 +39,7 @@ func handlerFollow(s *state, cmd command) error {
 	}
 
 	fmt.Println("Feed follow created succesfully")
-	printFollow(follow.UserName, follow.FeedName)
+	printFeedFollow(follow.UserName, follow.FeedName)
 	fmt.Println()
 	fmt.Println("======================================================")
 	return nil
@@ -79,7 +79,7 @@ func printFeeds(follows []database.GetFeedFollowsForUserRow) {
 	}
 }
 
-func printFollow(username, feedname string) {
+func printFeedFollow(username, feedname string) {
 	fmt.Printf(" * FeedName: %v\n", feedname)
 	fmt.Printf(" * Username: %v\n", username)
 }
