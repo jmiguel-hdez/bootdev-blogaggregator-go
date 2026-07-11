@@ -31,8 +31,8 @@ func main() {
 	programState := &state{cfg: &cfg, db: dbQueries}
 
 	cmds := commands{cmds: make(map[string]func(*state, command) error)}
-	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
+	cmds.register("login", handlerLogin)
 	cmds.register("reset", handlerReset)
 	cmds.register("users", handlerListUsers)
 	cmds.register("agg", handleAgg)
