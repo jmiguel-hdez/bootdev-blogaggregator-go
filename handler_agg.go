@@ -2,7 +2,12 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/jmiguel-hdez/bootdev-blogaggregator-go/internal/database"
+	"github.com/lib/pq"
+	"github.com/lib/pq/pqerror"
 	"time"
 )
 
@@ -43,8 +48,38 @@ func scrapeFeeds(s *state) error {
 	if err != nil {
 		return fmt.Errorf("unable to fetch feed: %w", err)
 	}
+
 	fmt.Printf("Feed %s collected, %v posts found\n", feedRow.Name, len(feed.Channel.Item))
-	printRSSFeed(feed)
+
+	for i, item := range feed.Channel.Item {
+		var pubtime sql.NullTime
+		pubtime.Time, err = time.Parse(time.RFC1123Z, item.PubDate)
+		if err != nil {
+			pubtime.Valid = false
+		} else {
+			pubtime.Valid = true
+		}
+		post, err := s.db.CreatePost(context.Background(), database.CreatePostParams{
+			ID:        uuid.New(),
+			CreatedAt: time.Now().UTC(),
+			UpdatedAt: time.Now().UTC(),
+			Title:     item.Title,
+			Url:       item.Link,
+			Description: sql.NullString{
+				String: item.Description,
+				Valid:  item.Description != "",
+			},
+			PublishedAt: pubtime,
+			FeedID:      feedRow.ID,
+		})
+		if pqErr := pq.As(err, pqerror.UniqueViolation); pqErr == nil {
+			if err != nil {
+				return fmt.Errorf("unable to create post: %w", err)
+			}
+			fmt.Printf("Created Post %v: Title: %v\n", i, post.Title)
+		}
+	}
+
 	return nil
 
 }

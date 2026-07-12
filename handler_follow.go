@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/jmiguel-hdez/bootdev-blogaggregator-go/internal/database"
+	"strconv"
 	"time"
 )
 
@@ -71,4 +72,33 @@ func printFeeds(follows []database.GetFeedFollowsForUserRow) {
 func printFeedFollow(username, feedname string) {
 	fmt.Printf(" * FeedName: %v\n", feedname)
 	fmt.Printf(" * Username: %v\n", username)
+}
+
+func handlerBrowse(s *state, cmd command, user database.User) error {
+	limit := 2
+	var err error
+	if len(cmd.Args) == 1 {
+		limit, err = strconv.Atoi(cmd.Args[0])
+		if err != nil {
+			return fmt.Errorf("usage: %s <limit>", cmd.Name)
+		}
+	}
+
+	posts, err := s.db.GetPostsForUser(context.Background(), database.GetPostsForUserParams{
+		UserID: user.ID,
+		Limit:  int32(limit),
+	})
+	if err != nil {
+		return fmt.Errorf("error getting posts %w", err)
+	}
+
+	fmt.Printf("Found %v Posts for User %v\n", len(posts), user.Name)
+	fmt.Println("===================================================")
+
+	for i, post := range posts {
+		fmt.Printf("Post[%v] Title: %v\n", i, post.Title)
+		fmt.Printf("Post[%v] Url: %v\n", i, post.Url)
+		fmt.Println()
+	}
+	return nil
 }
