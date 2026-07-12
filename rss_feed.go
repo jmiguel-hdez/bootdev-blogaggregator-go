@@ -67,3 +67,21 @@ func fetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 
 	return &feed, nil
 }
+
+func printRSSFeed(feed *RSSFeed) {
+	fmt.Printf("Feed Title: %v\n", feed.Channel.Title)
+	fmt.Printf("Feed Url: %v\n", feed.Channel.Link)
+	fmt.Printf("Feed Description: %v\n", feed.Channel.Description)
+
+	if len(feed.Channel.Item) == 0 {
+		fmt.Println("No items on feed\n")
+		return
+	}
+
+	for i, item := range feed.Channel.Item {
+		fmt.Printf("item %v: Title: %v\n", i, item.Title)
+		fmt.Printf("item %v: Url: %v\n", i, item.Link)
+		fmt.Printf("item %v: Description: %v\n", i, item.Description)
+		fmt.Printf("item %v: PubDate: %v\n", i, item.PubDate)
+	}
+}
