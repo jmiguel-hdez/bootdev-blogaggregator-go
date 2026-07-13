@@ -265,20 +265,39 @@ Created Post 1: Title: We taught our platform to learn its own pricing decisions
 ```
 
 * The browse command receive an optional limit(default 2), it will list the saved posts for the user
+
 ```
 #gator browse 3
 Found 3 Posts for User holgith
 ===================================================
-Post[0] Title: How to build a circular LCD clock
-Post[0] Url: https://blinry.org/lcd-clock/
+Sun Jul 12 from Hacker News RSS
+--- How to build a circular LCD clock ---
 
-Post[1] Title: We taught our platform to learn its own pricing decisions
-Post[1] Url: https://avriz.io/eng/paper
+<p>Article URL: <a href="https://blinry.org/lcd-clock/">https://blinry.org/lcd-clock/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=48885613">https://news.ycombinator.com/item?id=48885613</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
 
-Post[2] Title: LLMs and Shaders
-Post[2] Url: https://amitp.blogspot.com/2026/07/llms-and-shaders.html
+Link: https://blinry.org/lcd-clock/
+==============================================
+Sun Jul 12 from Hacker News RSS
+--- We taught our platform to learn its own pricing decisions ---
+
+<p>Article URL: <a href="https://avriz.io/eng/paper">https://avriz.io/eng/paper</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=48885600">https://news.ycombinator.com/item?id=48885600</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+
+Link: https://avriz.io/eng/paper
+==============================================
+Sun Jul 12 from Hacker News RSS
+--- LLMs and Shaders ---
+
+<p>Article URL: <a href="https://amitp.blogspot.com/2026/07/llms-and-shaders.html">https://amitp.blogspot.com/2026/07/llms-and-shaders.html</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=48885572">https://news.ycombinator.com/item?id=48885572</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+
+Link: https://amitp.blogspot.com/2026/07/llms-and-shaders.html
+==============================================
 ```
-
-
-
-
